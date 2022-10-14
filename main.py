@@ -2,6 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 import json
 from random import choice
 import subprocess
+import os
 
 backgeound_color = "#2e2e2e"
 primary_color = "#fb9f1b"
@@ -9,13 +10,15 @@ secondary_color = "#fafafa"
 
 W, H = 1920, 1080
 
-font1 = ImageFont.truetype("font.ttf", 80)
-font2 = ImageFont.truetype("font2.ttf", 30)
+path = os.path.dirname(os.path.abspath(__file__))
+
+font1 = ImageFont.truetype(path+"/font.ttf", 80)
+font2 = ImageFont.truetype(path+"/font2.ttf", 30)
 
 title = "bspwm"
 
-path = "/tmp/wallpaper.png"
-quotes = "qoutes.json"
+save_path = "/tmp/wallpaper.png"
+quotes = path+"/qoutes.json"
 
 with open(quotes, 'r') as quotes:
     quotes = json.load(quotes)
@@ -44,5 +47,5 @@ draw.text(((W-w)/2, (H-h)/2), quote, font=font2, fill=secondary_color)
 w2, _ = get_w_and_h(author, font=font2)
 draw.text((W-(W-w)/2-w2, (H-h)/2+1.5*h), author, font=font2, fill=secondary_color)
 
-img.save(path)
-subprocess.run(["feh", "--bg-max", "/tmp/wallpaper.png"])
+img.save(save_path)
+subprocess.run(["feh", "--bg-max", save_path])
